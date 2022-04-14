@@ -2,15 +2,17 @@ class ArticlesController < ApplicationController
   http_basic_authenticate_with name: "dhh", password: "secret", except: [:index, :show]
   before_action :find_article, only: [:show, :edit, :update, :destroy]
 
+  ARTICLE_PER_PAGE = 3
   def index
-    @articles = Article.all
+    @page = params.fetch(:page, 0).to_i
+    @articles = Article.offset(@page * ARTICLE_PER_PAGE).limit(ARTICLE_PER_PAGE)
   end
 
   def show
   end
 
   def new
-    @article = Article.new  
+    @article = Article.new
   end
 
   def create

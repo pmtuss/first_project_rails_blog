@@ -2,6 +2,11 @@
 
 Our blog has <%= Article.public_count %> articles and counting!
 
+<div>
+  <%= link_to "Last page", articles_path(page: @page - 1)%>
+  <%= link_to "Next page", articles_path(page: @page + 1)%>
+</div>
+
 <ul>
   <% @articles.each do |article| %>
     <% unless article.archived? %>
