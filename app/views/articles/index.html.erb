@@ -2,10 +2,7 @@
 
 Our blog has <%= Article.public_count %> articles and counting!
 
-<div>
-  <%= link_to "Last page", articles_path(page: @page - 1)%>
-  <%= link_to "Next page", articles_path(page: @page + 1)%>
-</div>
+<%= link_to "New Article", new_article_path %>
 
 <ul>
   <% @articles.each do |article| %>
@@ -17,4 +14,29 @@ Our blog has <%= Article.public_count %> articles and counting!
   <% end %>
 </ul>
 
-<%= link_to "New Article", new_article_path %>
+
+<div>
+  <% if  @page > 1 %>
+    <%= link_to 'First', articles_path(page: 1) %>
+    <%= link_to '< Previous', articles_path(page: @page-1) %>
+  <% else %>
+    <span>First</span>
+    <span>&#60; Previous</span>
+  <% end %>
+
+  <% 1.upto(@total_pages) do |page| %>
+    <% if  @page == page%>
+      <%= link_to page, articles_path(page: page), style: 'color: #00cccc' %>
+    <% else %>
+      <%= link_to page, articles_path(page: page) %>
+    <% end %>
+  <% end %>
+
+  <% if @page < @total_pages %>
+    <%= link_to 'Next >', articles_path(page: @page + 1) %>
+    <%= link_to 'Last', articles_path(page: @total_pages) %>
+  <% else %>
+    <span>Next &#62;</span>
+    <span>Last </span>
+  <% end %>
+</div>

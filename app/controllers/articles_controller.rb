@@ -4,8 +4,9 @@ class ArticlesController < ApplicationController
 
   ARTICLES_PER_PAGE = 3
   def index
-    @page = params.fetch(:page, 0).to_i
-    @articles = Article.offset(@page * ARTICLES_PER_PAGE).limit(ARTICLES_PER_PAGE)
+    @page = params.fetch(:page, 1).to_i
+    @total_pages = (Article.all.size / ARTICLES_PER_PAGE.to_f).ceil
+    @articles = Article.offset( (@page - 1)* ARTICLES_PER_PAGE).limit(ARTICLES_PER_PAGE)
   end
 
   def show
